@@ -18,25 +18,14 @@ public:
         ListNode* greaterthen = new ListNode(0);
         ListNode* i = head;
 
-        bool firstlessthen = true;
-        bool firstgreaterthen = true;
-
-        ListNode* startless = NULL;
-        ListNode* startgreater = NULL;
+        ListNode* startless = lessthen;
+        ListNode* startgreater = greaterthen;
 
         while(i != NULL){
             if(i->val < x){
-                if(firstlessthen){
-                    startless = i;
-                    firstlessthen = false;
-                }
                 lessthen->next = i;
                 lessthen = lessthen->next;
             }else{
-                if(firstgreaterthen){
-                    startgreater = i;
-                    firstgreaterthen = false;
-                }
                 greaterthen->next = i;
                 greaterthen = greaterthen->next;
             }
@@ -44,12 +33,8 @@ public:
         }
 
         greaterthen->next = NULL;
-        lessthen->next = startgreater;       
+        lessthen->next = startgreater->next;  
 
-        if(!firstlessthen){
-            return startless;
-        }else{
-            return startgreater;
-        }
+        return startless->next;     
     }
 };
