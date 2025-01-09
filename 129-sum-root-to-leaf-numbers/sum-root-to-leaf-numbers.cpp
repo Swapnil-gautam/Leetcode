@@ -19,7 +19,7 @@ public:
         pathnum = pathnum*10 + root->val;
 
         if(root->left==NULL && root->right==NULL){
-            cout << "pathnum: " << pathnum << endl;
+            //cout << "pathnum: " << pathnum << endl;
             res = res + pathnum;
             // cout << "res: " << res << endl;
             // return res;
