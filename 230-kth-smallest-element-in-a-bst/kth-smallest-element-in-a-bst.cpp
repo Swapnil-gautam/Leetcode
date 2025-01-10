@@ -11,7 +11,8 @@
  */
 class Solution {
 public:
-    queue<int> qu;
+    // queue<int> qu;
+    vector<int> v;
 
     void dfs(TreeNode* root){
         if(root == NULL){
@@ -19,20 +20,20 @@ public:
         }
 
         dfs(root->left);
-        qu.push(root->val);
+        // qu.push(root->val);
+        v.push_back(root->val);
         dfs(root->right);
     }
     
     int kthSmallest(TreeNode* root, int k) {
         dfs(root);
 
-        while(!qu.empty() && (k-1)){
-            //cout << qu.front() << endl;
-            qu.pop();
-            k--;
-        }
+        // while(!qu.empty() && (k-1)){
+        //     //cout << qu.front() << endl;
+        //     qu.pop();
+        //     k--;
+        // }
 
-
-        return qu.front();
+        return v[k-1];
     }
 };
