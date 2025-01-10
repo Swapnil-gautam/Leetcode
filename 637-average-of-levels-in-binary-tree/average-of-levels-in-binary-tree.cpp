@@ -17,9 +17,9 @@ public:
         qu.push(root);
         while(!qu.empty()){
             int size = qu.size();
-            int n = size;
             double sum = 0; 
-            while(size>0){
+            for(int i=0;i<size;i++) {
+            // while(size>0){
                 TreeNode* curr = qu.front();
                 qu.pop();
 
@@ -29,11 +29,10 @@ public:
                 if(curr->right!=NULL){
                     qu.push(curr->right);
                 }
-                size--;
+                // size--;
                 sum = sum + curr->val;
             }
-            double avg = sum / n;
-            res.push_back(avg);
+            res.push_back(sum / size);
         }
 
         return res;
