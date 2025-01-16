@@ -25,8 +25,8 @@ public:
         int n = numCourses;
         vector<vector<int>> adj(n);
         for(auto i: prerequisites){
-            adj[i[1]].push_back(i[0]);
-            // adj[i[0]].push_back(i[1]);
+            // adj[i[1]].push_back(i[0]);
+            adj[i[0]].push_back(i[1]);
         }
 
         vector<int> visited(n, 0);
