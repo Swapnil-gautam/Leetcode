@@ -28,7 +28,7 @@ public:
         vector<int> order;
 
         for(auto i : prerequisites){
-            adj[i[1]].push_back(i[0]);
+            adj[i[0]].push_back(i[1]);
         }
 
         vector<bool> todo(n, false);
@@ -41,7 +41,7 @@ public:
             }
         }
 
-        reverse(order.begin(), order.end());
+        // reverse(order.begin(), order.end());
         return order;
     }
 };
