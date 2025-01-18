@@ -31,7 +31,7 @@ public:
                     if(pos+i <= n*n && visited[pos+i] == 0){
                         int curr = pos+i;
                         auto t = PosToRC(curr,n);
-                        cout << "curr: " << curr << " r: " << t.first << " c: "<< t.second << " : " << board[t.first][t.second] << endl; 
+                        //cout << "curr: " << curr << " r: " << t.first << " c: "<< t.second << " : " << board[t.first][t.second] << endl; 
                         //cout << "curr: " << curr << " : " << board[t.first][t.second] << endl; 
                         visited[curr] = 1;
                         if(board[t.first][t.second] != -1){
@@ -44,7 +44,7 @@ public:
                 }
             }
             move = move + 1;
-            cout << "**************" << endl;
+            //cout << "**************" << endl;
         }
         return -1;
     }
