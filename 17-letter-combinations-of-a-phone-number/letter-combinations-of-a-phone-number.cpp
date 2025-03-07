@@ -1,46 +1,31 @@
 class Solution {
 public:
-
-    vector<string> ans;
-
-    void backtracing(string digits, vector<string> mapping, int i, string& curr) {
-        //cout << "curr.size(): " << curr.size() << " digits.size(): " << digits.size() << endl;
-        if(curr.size() == digits.size()){
-            ans.push_back(curr);
-            //cout << "return" << endl;
+    void backtrack(string digits, vector<string> digiToAlpha, vector<string>& res, string& curr){
+        if(digits.size() == curr.size()){
+            res.push_back(curr);
             return;
         }
-        
-        int t = digits[i] - '0';
-        for(int j = 0; j < mapping[t].size(); j++){
-            string temp = curr;
-            curr = curr + mapping[t][j];
-            cout << curr << endl;
-            backtracing(digits, mapping, i+1, curr);
-            curr = temp;
+
+        string t = digiToAlpha[(digits[curr.size()] - '0') - 2];
+        for(int i = 0; i < t.size(); i++){
+            // cout << t[i] << endl;
+            curr.push_back(t[i]);
+            backtrack(digits, digiToAlpha, res, curr);
+            curr.pop_back();
         }
-        //return ans;
+        return;
     }
 
     vector<string> letterCombinations(string digits) {
-
-        string curr = "";
-        vector<string> mapping{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        // cout << mapping[2] << endl;
-        
-        // for(int i = 0; i < digits.size(); i++){
-        //     int t = digits[i] - '0';
-        //     cout << mapping[t] << endl;
-        //     for(int j = 0; j < mapping[t].size(); j++){
-        //         cout << mapping[t][j] << endl;
-        //     }
-        // }
-        if(digits.size() > 0){
-            backtracing(digits, mapping, 0, curr);
+        vector<string> digiToAlpha = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> res;
+        string curr;
+        if(digits.size() != 0){
+            backtrack(digits, digiToAlpha, res, curr);
         }else{
-            return {};
+            return res;
         }
 
-        return ans;
+        return res;
     }
 };
