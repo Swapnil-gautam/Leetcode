@@ -7,7 +7,7 @@ public:
 
         while(low <= high){
             int mid = (low + high)/2;
-            cout <<"mid: " << mid << endl;
+            // cout <<"mid: " << mid << endl;
             if(nums[low] > nums[high]){
 
                 if(nums[mid] > nums[low]){
