@@ -21,8 +21,10 @@ public:
 
         for(int i = n-2; i>=0; i--){
             for(int j = i; j>=0; j--){
-                cout << front[j] << endl;
-                cout << front[j] << endl;
+                // cout << front[j] << endl;
+                // cout << front[j+1] << endl;
+                // cout << triangle[i][j] << endl;
+                // cout << "**************" << endl;
 
                 int d = triangle[i][j] + front[j];
                 int dg = triangle[i][j] + front[j+1];
