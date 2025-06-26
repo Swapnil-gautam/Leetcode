@@ -20,8 +20,8 @@ public:
     
     void addWord(string word) {
         TrieNode* crawler = root;
-        cout << word << endl;
-        cout << crawler->children[1] << endl;
+        // cout << word << endl;
+        // cout << crawler->children[1] << endl;
         for(int i = 0; i < word.length(); i++){
             int idx = word[i] - 'a';
             if(crawler->children[idx] == NULL){
