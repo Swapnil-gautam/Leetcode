@@ -26,22 +26,31 @@ public:
 
         int alleven = 0;
         int allodd = 0;
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i]%2 == 0){
-                alleven++;
-            }else{
-                allodd++;
-            }
-        }
+        // for(int i = 0; i < nums.size(); i++){
+        //     if(nums[i]%2 == 0){
+        //         alleven++;
+        //     }else{
+        //         allodd++;
+        //     }
+        // }
 
 
         int alternate = 1;
         int checkfor = 0; 
         if(nums[0]%2 == 0){
             checkfor = 1;
+            alleven++;
+        }else{
+            allodd++;
         }
         
         for(int i = 1; i < nums.size(); i++){
+            if(nums[i]%2 == 0){
+                alleven++;
+            }else{
+                allodd++;
+            }
+
             if(nums[i]%2 == checkfor){
                 alternate++;
                 if(checkfor == 0){
