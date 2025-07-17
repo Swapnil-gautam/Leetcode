@@ -35,11 +35,15 @@ public:
         }
 
 
-        int oddeven = 0;
-        int checkfor = 1;
-        for(int i = 0; i < nums.size(); i++){
+        int alternate = 1;
+        int checkfor = 0; 
+        if(nums[0]%2 == 0){
+            checkfor = 1;
+        }
+        
+        for(int i = 1; i < nums.size(); i++){
             if(nums[i]%2 == checkfor){
-                oddeven++;
+                alternate++;
                 if(checkfor == 0){
                     checkfor = 1;
                 }else{
@@ -48,20 +52,20 @@ public:
             }
         }
 
-        int evenodd = 0;
-        checkfor = 0;
-        for(int i = 0; i < nums.size(); i++){
-            if(nums[i]%2 == checkfor){
-                evenodd++;
-                if(checkfor == 0){
-                    checkfor = 1;
-                }else{
-                    checkfor = 0;
-                }
-            }
-        }
+        // int evenodd = 0;
+        // checkfor = 0;
+        // for(int i = 0; i < nums.size(); i++){
+        //     if(nums[i]%2 == checkfor){
+        //         evenodd++;
+        //         if(checkfor == 0){
+        //             checkfor = 1;
+        //         }else{
+        //             checkfor = 0;
+        //         }
+        //     }
+        // }
 
-        return max(oddeven, max(evenodd, max(alleven, allodd)));
+        return max(alternate, max(alleven, allodd));
     }
 };
 
