@@ -1,92 +1,79 @@
-// class Solution {
-// public:
-//     int maxCollectedFruits(vector<vector<int>>& fruits) {
-        
-//     }
-// };
-
-
-
-
-/************************************************************ C++ ************************************************************/
-//Approach-1 - (Recursion + Memoization)
-//T.C : O(n^2)
-//S.C : O(n^2)
 class Solution {
-    int n;
-    vector<vector<int>> t;
-
 public:
 
-    //Can only move diagonally
-    int child1Collect(vector<vector<int>>& grid) {
-        int ans = 0;
-        for (int i = 0; i < n; i++) {
-            ans += grid[i][i];
-            grid[i][i] = 0;
-            t[i][i] = 0;
+    int solveA(vector<vector<int>>&fruits, int Ai, int Aj, int n, vector<vector<int>>& memoA){
+        if(Ai< 0 || Aj < 0 || Ai>= n || Aj >= n){
+            return 0;
         }
-        return ans;
+        if(Aj < Ai){
+            return 0;
+        }
+
+        if(Ai == n-2 && Aj == n-1){
+            return memoA[Ai][Aj] = fruits[Ai][Aj];
+        }
+
+        if( memoA[Ai][Aj] != -1){
+            return  memoA[Ai][Aj];
+        }
+
+        int pointsL = fruits[Ai][Aj] + solveA(fruits, Ai+1,Aj-1,  n, memoA);
+        int pointsS = fruits[Ai][Aj] + solveA(fruits, Ai+1,Aj,  n, memoA);
+        int pointsR = fruits[Ai][Aj] + solveA(fruits, Ai+1,Aj+1,  n, memoA);
+        return  memoA[Ai][Aj] = max(max(pointsL, pointsS), pointsR);
     }
 
-    int child2Collect(int i, int j, vector<vector<int>>& grid) {
-        if (i < 0 || i >= n || j < 0 || j >= n) {
+    int solveB(vector<vector<int>>&fruits, int Bi, int Bj, int n, vector<vector<int>>& memoB){
+        if(Bi< 0 || Bj < 0 || Bi>= n || Bj >= n){
             return 0;
         }
-        if (i == n - 1 && j == n - 1) {
-            return 0;
-        }
-        
-        //can't go beyond diagonal or left to diagonal (only have n-1 moves)
-        if (i == j || i > j) {
+        if(Bj > Bi){
             return 0;
         }
 
-        if (t[i][j] != -1)
-            return t[i][j];
+        if(Bi == n-1 && Bj == n-2){
+            return memoB[Bi][Bj] = fruits[Bi][Bj];
+        }
 
-        int leftcorner = grid[i][j] + child2Collect(i + 1, j - 1, grid);
-        int middle = grid[i][j] + child2Collect(i + 1, j, grid);
-        int rightcorner = grid[i][j] + child2Collect(i + 1, j + 1, grid);
+        if( memoB[Bi][Bj] != -1){
+            return  memoB[Bi][Bj];
+        }
 
-        return t[i][j] = max({middle, rightcorner, leftcorner});
+        int pointsL = fruits[Bi][Bj] + solveB(fruits, Bi-1,Bj+1,  n, memoB);
+        int pointsS = fruits[Bi][Bj] + solveB(fruits, Bi,Bj+1,  n, memoB);
+        int pointsR = fruits[Bi][Bj] + solveB(fruits, Bi+1,Bj+1,  n, memoB);
+        return memoB[Bi][Bj] = max(max(pointsL, pointsS), pointsR);
     }
 
-    int child3Collect(int i, int j, vector<vector<int>>& grid) {
-        if (i < 0 || i >= n || j < 0 || j >= n) {
-            return 0;
-        }
-        if (i == n - 1 && j == n - 1) {
-            return 0;
+    int maxCollectedFruits(vector<vector<int>>& fruits) {
+        int n = fruits.size();
+        int Ai = 0;
+        int Aj = n-1;
+
+        int Bi = n-1;
+        int Bj = 0;
+
+        int points = 0;
+
+        for(int i = 0; i < n; i++){
+            points += fruits[i][i];
+            fruits[i][i] = -1;
         }
 
-        //can't go beyond diagonal or right to diagonal (only have n-1 moves)
-        if (i == j || j > i) {
-            return 0;
-        }
-        if (t[i][j] != -1)
-            return t[i][j];
+        int t = (n/2);
+        int MaxL = t-1;
+        vector<vector<int>> memoA(n, vector<int>(n,-1));
+        int pointsA = solveA(fruits, Ai,Aj, n, memoA);
+        vector<vector<int>> memoB(n, vector<int>(n,-1));
+        int pointsB = solveB(fruits, Bi,Bj, n, memoB);
 
-        int topcorner   = grid[i][j] + child3Collect(i - 1, j + 1, grid);
-        int right       = grid[i][j] + child3Collect(i, j + 1, grid);
-        int rightcorner = grid[i][j] + child3Collect(i + 1, j + 1, grid);
+        // cout << "points: " << points << endl;
+        // cout << "pointsA: " <<  pointsA << endl;
+        // cout << "pointsB: " <<  pointsB << endl;
 
-        return t[i][j] = max({right, rightcorner, topcorner});
+
+        return points + pointsA + pointsB;
     }
-
-    int maxCollectedFruits(vector<vector<int>>& grid) {
-        n = grid.size();
-        t.resize(n, vector<int>(n, -1));
-
-        // First child
-        int firstChildScore = child1Collect(grid);
-
-        // Second child
-        int secondChildScore = child2Collect(0, n - 1, grid);
-
-        // Third child
-        int thirdChildScore  = child3Collect(n - 1, 0, grid);
-
-        return (firstChildScore + secondChildScore + thirdChildScore);
-    }    
 };
+
+
