@@ -1,44 +1,33 @@
-// class Solution {
-// public:
-//     int numberOfWays(int n, int x) {
-        
-//     }
-// };
-
-
-/**************************************************************** C++ ****************************************************************/
-//Approach-1 (Recursion + Memoization)
-//T.C : O(n*n), assuming that num can go till n in worst case (At max states = t[n][n])
-//S.C : O(n*n), assuming that num can go till n in worst case (we took t[n][n])
 class Solution {
 public:
-
-    int M = 1e9+7;
-    int t[301][301];
-
-    int solve(int n, int num, int x) {
-        if(n == 0)
-            return 1;
+    int Mod = 1000000007;
+    int solve(int n, int x, int curr, vector<vector<int>>& memo){
+        // cout << "num: " << num << " curr: " << curr << " x: " << x << endl;
+        if(n == 0){
+            // cout << "****** 1 **********" << endl;
+            return  1;
+        }else if(n < 0 || curr > n){
+            return  0;
+        }
         
-        if(n < 0)
-            return 0;
-        
-        int currPowerValue = pow(num, x);
-        if(currPowerValue > n) {
+        if(memo[curr][n] != -1){
+            return memo[curr][n];
+        }
+        // long long power = pow(curr, x);
+        // cout << "power: " << power << endl;
+        if(pow(curr, x) > n){
             return 0;
         }
 
-        if(t[n][num] != -1) {
-            return t[n][num];
-        }
+        int take = solve(n - pow(curr, x), x, curr+1, memo); 
+        int nottake = solve(n, x, curr+1, memo); 
 
-        int take = solve(n-currPowerValue, num+1, x);
-        int skip = solve(n, num+1, x);
+        return memo[curr][n] = (take + nottake)%Mod;
 
-        return t[n][num] = (take+skip)%M;
     }
     int numberOfWays(int n, int x) {
-        memset(t, -1, sizeof(t));
-        return solve(n, 1, x);
+        vector<vector<int>>memo(n+1, vector<int>(n+1, -1));
+        return solve(n, x, 1, memo); 
     }
 };
+
