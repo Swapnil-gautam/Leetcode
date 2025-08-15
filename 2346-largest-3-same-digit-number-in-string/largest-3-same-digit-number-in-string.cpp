@@ -1,30 +1,27 @@
-// class Solution {
-// public:
-//     string largestGoodInteger(string num) {
-        
-//     }
-// };
-
-
-
-
-
-
-
-
-/******************************************************************** C++ ********************************************************************/
-//Simple iteration and check
 class Solution {
 public:
     string largestGoodInteger(string num) {
-        char maxChar = ' ';
-        
-        for(int i = 2; i<num.length(); i++) {
-            if(num[i] == num[i-1] && num[i] == num[i-2]) {
-                maxChar = max(maxChar, num[i]);
+        if(num.size() < 3){
+            return "";
+        }
+        string res = "";
+        for(int i =  1; i < num.size()-1; i++){
+            if(num[i-1] == num[i] && num[i] == num[i+1]){
+                //cout << "check: " << num[i] << endl;
+                if(res == ""){
+                    res = res + num[i-1] + num[i] + num[i+1];
+                }
+                else if(res[0] < num[i]){
+                    res[0] = num[i-1];
+                    res[1] = num[i];
+                    res[2] = num[i+1]; 
+                }
             }
         }
-        
-        return maxChar == ' ' ? "" : string(3, maxChar);
+        return res;
     }
 };
+
+
+
+
