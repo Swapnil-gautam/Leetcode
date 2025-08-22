@@ -27,10 +27,10 @@ public:
             }
         }
 
-        cout << "minX: " <<  minX << endl;
-        cout << "minY: " <<  minY << endl;
-        cout << "maxX: " <<  maxX << endl;
-        cout << "maxY: " <<  maxY << endl;
+        // cout << "minX: " <<  minX << endl;
+        // cout << "minY: " <<  minY << endl;
+        // cout << "maxX: " <<  maxX << endl;
+        // cout << "maxY: " <<  maxY << endl;
 
         return (((maxX - minX)+1) * ((maxY - minY)+1));
 
