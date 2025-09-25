@@ -1,58 +1,39 @@
 class Solution {
 public:
 
-    // int rec(vector<vector<int>>& triangle, int i, int j){
-    //     if(i == triangle.size()-1){
-    //         return triangle[i][j];
-    //     }
+    int solve(vector<vector<int>>& triangle, int i, int j, vector<vector<int>>& grid){
+        if(i == triangle.size()-1){
+            return triangle[i][j];
+        }
+        if(grid[i][j] != INT_MIN){
+            // cout << "grid[i][j]: " << i << " : " << j << " : " << grid[i][j] <<  endl;
+            return grid[i][j];
+        }
+        
+        int down = solve(triangle, i+1, j, grid);
+        int diag = solve(triangle, i+1, j+1, grid);
 
-    //     int d = triangle[i][j] + rec(triangle, i+1,j);
-    //     int dg = triangle[i][j] + rec(triangle, i+1,j+1);
-
-    //     return min(d, dg);
-    // }
+        grid[i][j] = triangle[i][j] + min(down, diag);
+        // cout << "i: " << i << " j: " << j << " " << grid[i][j] << endl;
+        return grid[i][j];
+    }
 
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
-        vector<int> front(n, 0), curr(n,0);
-        for(int i = 0; i<triangle[n-1].size(); i++){
-            front[i] = triangle[n-1][i];
-        }
-
-        for(int i = n-2; i>=0; i--){
-            for(int j = i; j>=0; j--){
-                // cout << front[j] << endl;
-                // cout << front[j+1] << endl;
-                // cout << triangle[i][j] << endl;
-                // cout << "**************" << endl;
-
-                int d = triangle[i][j] + front[j];
-                int dg = triangle[i][j] + front[j+1];
-                curr[j]  = min(d, dg);
-            }
-            front = curr;
-        }
-
-        return front[0];
-
-
-        // return rec(triangle, 0, 0);
-                
-    }
-};
-
-
-
-
-        // wrong interpretion of the problem
+        int m = triangle[n-1].size();
+        vector<vector<int>> grid(n, vector<int>(m, INT_MIN));
         // int sum = 0;
         // for(int i = 0; i < triangle.size(); i++){
-        //     int min = triangle[i][0];
+        //     int min = INT_MAX;
         //     for(int j = 0; j < triangle[i].size(); j++){
-        //         if(min > triangle[i][j]){
+        //         if(triangle[i][j] < min){
         //             min = triangle[i][j];
         //         }
         //     }
         //     sum = sum + min;
         // }
         // return sum;
+        int sum = 0;
+        return solve(triangle, 0, 0, grid);
+    }
+};
