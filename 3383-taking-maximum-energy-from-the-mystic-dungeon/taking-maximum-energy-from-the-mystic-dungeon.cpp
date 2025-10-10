@@ -1,23 +1,17 @@
-// class Solution {
-// public:
-//     int maximumEnergy(vector<int>& energy, int k) {
-        
-//     }
-// };
-
 class Solution {
 public:
     int maximumEnergy(vector<int>& energy, int k) {
-        int n = energy.size();
-        vector<int> t(n, 0); // DP array
-
-        for (int i = n - 1; i >= 0; i--) { // see my video to understand why right to left traversal is needed here
-            if (i + k < n)
-                t[i] = energy[i] + t[i + k];
-            else
-                t[i] = energy[i];
+        for(int i = energy.size()-1-k; i >= 0; i--){
+            energy[i] = energy[i]+energy[i+k];
         }
 
-        return *max_element(begin(t), end(t));
+        int max_enery = INT_MIN;
+        for(int i = 0; i < energy.size(); i++){
+            if(max_enery < energy[i]){
+                max_enery = energy[i];
+            }
+        }
+        return max_enery;
     }
 };
+
