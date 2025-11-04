@@ -1,50 +1,36 @@
-// class Solution {
-// public:
-//     vector<int> findXSum(vector<int>& nums, int k, int x) {
-//         unordered_map<int, int> k_freq;
-
-//         int i = 0;
-//         int j = 0;
-//         vector<int> res;
-//         while(j < nums.size()){
-//             while(j - i  < k){
-//                 cout << "nums[j]: " << nums[j] << endl;
-//                 k_freq[nums[j]]++;
-//                 j++;
-//             }
-
-//             i++;
-//             cout << "i: " << i << endl;
-//         }
-//     }
-// };
-
-
 class Solution {
 public:
     vector<int> findXSum(vector<int>& nums, int k, int x) {
-        vector<int> result;
+        unordered_map<int, int> k_freq;
 
-        auto do_sum = [&](int idx) -> int {
-            unordered_map<int, int> ctr;
-
-            for (int i = idx; i < idx + k; ++i) {
-                ctr[nums[i]]++;}
-
-            priority_queue<pair<int, int>> pq;
-
-            for (auto& p : ctr) {
-                pq.push({p.second, p.first}); }
-
+        int i = 0;
+        int j = 0;
+        vector<int> res;
+        while(j < nums.size()){
+            while(j - i  < k){
+                cout << "nums[j]: " << nums[j] << endl;
+                k_freq[nums[j]]++;
+                j++;
+            }
+            priority_queue<pair<int, int>> max_pq; 
+            for(auto& kf: k_freq){
+                cout << "added to max pq: " << kf.second << " " <<  kf.first << endl;
+                max_pq.push({kf.second, kf.first});
+            }
             int sum = 0;
-            for (int i = 0; i < x && !pq.empty(); ++i) {
-                sum += pq.top().second * pq.top().first;
-                pq.pop();}
-
-            return sum;};
-
-        for (int i = 0; i <= nums.size() - k; ++i) {
-            result.push_back(do_sum(i));}
-
-        return result;}
+            int m = max_pq.size();
+            int t = min(x, m);
+            for(int i = 0; i < t; i++){
+                cout << max_pq.top().first << " " << max_pq.top().second << endl;
+                sum = sum + (max_pq.top().first*max_pq.top().second);
+                max_pq.pop();
+            }
+            res.push_back(sum);
+            k_freq[nums[i]]--;
+            i++;
+            cout << "i: " << i << endl;
+        }
+        return res;
+    }
 };
+
