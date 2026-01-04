@@ -6,7 +6,8 @@ public:
             // cout << floor(sqrt(nums[i])) << endl; 
             int divisorcount = 0;
             int sum = 0;
-            for(int j = 1; j <= floor(sqrt(nums[i])); j++){
+            // for(int j = 1; j <= floor(sqrt(nums[i])); j++){
+            for(int j = 1; j*j <= (nums[i]); j++){
                 if(nums[i]%j == 0){
                     // cout << "j: " <<  j << endl;
                     if(j == nums[i]/j){
