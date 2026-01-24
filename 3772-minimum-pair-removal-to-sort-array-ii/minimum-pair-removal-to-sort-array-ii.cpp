@@ -1,27 +1,63 @@
 // class Solution {
 // public:
+//     // int minimumPairRemoval(vector<int>& nums) {
+//     //     vector<int> res;
+//     //     stack<int> st;
+//     //     int count = 0;
+
+//     //     st.push(nums[nums.size()-1]);
+//     //     for(int i = nums.size()-2; i >= 0; i--){
+//     //         if(nums[i] > st.top()){
+//     //             int t = nums[i];
+//     //             while(!s.empty() && t > st.top()){
+//     //                 t = t + st.top();
+//     //                 st.pop();
+//     //                 count++;
+//     //             }
+//     //             st.push(t);
+//     //         }else{
+//     //             st.push(nums[i]);
+//     //         }
+//     //     }
+//     //     return count;
+//     // }
+
+
 //     int minimumPairRemoval(vector<int>& nums) {
-//         vector<int> res;
-//         stack<int> st;
+//         int n = nums.size();
+//         vector<long long>temp(n);
+//         vector<int>prevIndex(n);
+//         vector<int>nextIndex(n);
+//         set<pair<long long, int>> minpairset;
+//         int badpair = 0;
 //         int count = 0;
 
-//         st.push(nums[nums.size()-1]);
-//         for(int i = nums.size()-2; i >= 0; i--){
-//             if(nums[i] > st.top()){
-//                 int t = nums[i];
-//                 while(!s.empty() && t > st.top()){
-//                     t = t + st.top();
-//                     st.pop();
-//                     count++;
+//         for(int i = 0; i<n; i++){
+//             temp[i] = nums[i];
+//             prevIndex[i] = i-1;
+//             nextIndex[i] = i+1;
+//             if(i != n-1){
+//                 if(nums[i]<nums[i+1]){
+//                     badpair++;
 //                 }
-//                 st.push(t);
-//             }else{
-//                 st.push(nums[i]);
+//                 minpairset.insert({nums[i]+nums[i+1], i});
 //             }
 //         }
+
+//         while(badpair > 0){
+//             int first = minpairset.begin() -> sencond;
+//             int second = nextIndex[first];
+
+//             temp[first] = temp[first] + temp[second];
+//             minpairset.erase()
+//         }
+
+
+
 //         return count;
 //     }
 // };
+
 
 
 class Solution {
@@ -64,7 +100,7 @@ public:
             int second_right = nextIndex[second];
 
 
-            minPairSet.erase(begin(minPairSet));
+            minPairSet.erase(minPairSet.begin());
 
             if(temp[first] > temp[second]) {
                 badPairs--;
@@ -114,3 +150,4 @@ public:
         return operations;
     }
 };
+
