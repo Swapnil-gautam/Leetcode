@@ -1,153 +1,103 @@
-// class Solution {
-// public:
-//     // int minimumPairRemoval(vector<int>& nums) {
-//     //     vector<int> res;
-//     //     stack<int> st;
-//     //     int count = 0;
-
-//     //     st.push(nums[nums.size()-1]);
-//     //     for(int i = nums.size()-2; i >= 0; i--){
-//     //         if(nums[i] > st.top()){
-//     //             int t = nums[i];
-//     //             while(!s.empty() && t > st.top()){
-//     //                 t = t + st.top();
-//     //                 st.pop();
-//     //                 count++;
-//     //             }
-//     //             st.push(t);
-//     //         }else{
-//     //             st.push(nums[i]);
-//     //         }
-//     //     }
-//     //     return count;
-//     // }
-
-
-//     int minimumPairRemoval(vector<int>& nums) {
-//         int n = nums.size();
-//         vector<long long>temp(n);
-//         vector<int>prevIndex(n);
-//         vector<int>nextIndex(n);
-//         set<pair<long long, int>> minpairset;
-//         int badpair = 0;
-//         int count = 0;
-
-//         for(int i = 0; i<n; i++){
-//             temp[i] = nums[i];
-//             prevIndex[i] = i-1;
-//             nextIndex[i] = i+1;
-//             if(i != n-1){
-//                 if(nums[i]<nums[i+1]){
-//                     badpair++;
-//                 }
-//                 minpairset.insert({nums[i]+nums[i+1], i});
-//             }
-//         }
-
-//         while(badpair > 0){
-//             int first = minpairset.begin() -> sencond;
-//             int second = nextIndex[first];
-
-//             temp[first] = temp[first] + temp[second];
-//             minpairset.erase()
-//         }
-
-
-
-//         return count;
-//     }
-// };
-
-
-
 class Solution {
 public:
-    typedef long long ll;
+    // int minimumPairRemoval(vector<int>& nums) {
+    //     vector<int> res;
+    //     stack<int> st;
+    //     int count = 0;
+
+    //     st.push(nums[nums.size()-1]);
+    //     for(int i = nums.size()-2; i >= 0; i--){
+    //         if(nums[i] > st.top()){
+    //             int t = nums[i];
+    //             while(!s.empty() && t > st.top()){
+    //                 t = t + st.top();
+    //                 st.pop();
+    //                 count++;
+    //             }
+    //             st.push(t);
+    //         }else{
+    //             st.push(nums[i]);
+    //         }
+    //     }
+    //     return count;
+    // }
+
 
     int minimumPairRemoval(vector<int>& nums) {
         int n = nums.size();
+        vector<long long>temp(n);
+        vector<int>prevIndex(n);
+        vector<int>nextIndex(n);
+        set<pair<long long, int>> minpairset;
+        int badpair = 0;
+        int count = 0;
 
-        //{a, b, c, d} --> {a, b+c, d}
-        vector<ll> temp(n);
-        for(int i = 0; i < n; i++)
+        for(int i = 0; i<n; i++){
             temp[i] = nums[i];
-
-        set<pair<ll, int>> minPairSet;
-
-        vector<int> nextIndex(n);
-        vector<int> prevIndex(n);
-
-        for(int i = 0; i < n; i++) {
-            nextIndex[i] = i+1;
             prevIndex[i] = i-1;
-        }
-
-        int badPairs = 0;
-        for(int i = 0; i < n-1; i++) {
-            if(temp[i] > temp[i+1]) {
-                badPairs++;
+            nextIndex[i] = i+1;
+            if(i != n-1){
+                if(nums[i]>nums[i+1]){
+                    badpair++;
+                }
+                minpairset.insert({nums[i]+nums[i+1], i});
             }
-            minPairSet.insert({temp[i] + temp[i+1], i});
         }
 
-        int operations = 0;
-
-        while(badPairs > 0) {
-            int first  = minPairSet.begin()->second;
+        while(badpair > 0){
+            int first = minpairset.begin() -> second;
             int second = nextIndex[first];
 
-            int first_left   = prevIndex[first];
+            int first_left = prevIndex[first];
             int second_right = nextIndex[second];
 
+            
+            minpairset.erase(minpairset.begin());
 
-            minPairSet.erase(minPairSet.begin());
-
-            if(temp[first] > temp[second]) {
-                badPairs--;
+            if(temp[first] > temp[second]){
+                badpair--;
             }
 
-            //{d, (a, b)}
-            if(first_left >= 0) {
-                if(temp[first_left] > temp[first] &&
-                temp[first_left] <= temp[first] + temp[second]) {
-                    badPairs--;
-                } 
-                else if(temp[first_left] <= temp[first] &&
-                temp[first_left] > temp[first] + temp[second]) {
-                    badPairs++;
+
+            if(first_left >=0){
+                if(temp[first_left] > temp[first] && temp[first_left] <= temp[first] + temp[second]){
+                    badpair--;
                 }
+                else if(temp[first_left] <= temp[first] && temp[first_left] > temp[first] + temp[second]){
+                    badpair++;
+                }
+                
             }
 
-            //{(a, b), d}
-            if (second_right < n) {
-                if (temp[second_right] >= temp[second] &&
-                    temp[second_right] < temp[first] + temp[second]) {
-                    badPairs++;
+            if(second_right < n){
+                if(temp[second] > temp[second_right] && (temp[first] + temp[second]) <= temp[second_right]){
+                    badpair--;
+                }else if(temp[second] <= temp[second_right] && (temp[first] + temp[second]) > temp[second_right]){
+                    badpair++;
                 }
-                else if (temp[second_right] < temp[second] &&
-                         temp[second_right] >= temp[first] + temp[second]) {
-                    badPairs--;
-                }
+                
             }
 
-            if(first_left >= 0) {
-                minPairSet.erase({temp[first_left] + temp[first], first_left});
-                minPairSet.insert({temp[first_left] + temp[first] + temp[second], first_left});
+
+            if(first_left >=0){
+                minpairset.erase({temp[first_left] + temp[first], first_left});
+                minpairset.insert({temp[first_left] + temp[first] + temp[second], first_left});
+                
             }
 
             if(second_right < n) {
-                minPairSet.erase({temp[second] + temp[second_right], second});
-                minPairSet.insert({temp[first] + temp[second] + temp[second_right], first});
+                minpairset.erase({temp[second] + temp[second_right], second});
+                minpairset.insert({temp[first] + temp[second] + temp[second_right], first});
                 prevIndex[second_right] = first;
             }
 
             nextIndex[first] = second_right;
-            temp[first] += temp[second];
+            temp[first] = temp[first] + temp[second];
+            count++;
 
-            operations++;
         }
-
-        return operations;
+        return count;
     }
 };
+
 
