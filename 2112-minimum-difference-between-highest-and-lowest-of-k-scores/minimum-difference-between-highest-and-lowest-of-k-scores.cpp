@@ -1,31 +1,17 @@
-// class Solution {
-// public:
-//     int minimumDifference(vector<int>& nums, int k) {
-        
-//     }
-// };
-
 class Solution {
 public:
     int minimumDifference(vector<int>& nums, int k) {
-        int n = nums.size();
-
-        sort(begin(nums), end(nums));
-
-        int minDiff = INT_MAX;
+        sort(nums.begin(), nums.end());
 
         int i = 0;
-        int j = i+k-1;
-        while(j < n) {
-            int minElement = nums[i];
-            int maxElement = nums[j];
+        int j = i + k - 1;
+        int mindiff = INT_MAX;
 
-            minDiff = min(minDiff, maxElement - minElement);
+        while(j < nums.size()){
+            mindiff = min(mindiff, (nums[j] - nums[i]) );
             i++;
             j++;
         }
-
-        return minDiff;
+        return mindiff;
     }
 };
-
