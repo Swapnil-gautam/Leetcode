@@ -1,51 +1,39 @@
-// class Solution {
-// public:
-//     int minCost(int n, vector<vector<int>>& edges) {
-        
-//     }
-// };
-
-
 class Solution {
 public:
-    typedef pair<int, int> P;
-
     int minCost(int n, vector<vector<int>>& edges) {
-        unordered_map<int, vector<P>> adj;
-
-        for(auto &edge : edges) {
-            int u  = edge[0];
-            int v  = edge[1];
-            int wt = edge[2];
-
-            adj[u].push_back({v, wt});
-            adj[v].push_back({u, 2*wt}); //reversed edge
+        map<int, vector<pair<int, int>>>adj;
+        vector<int> min_dist(n, INT_MAX);
+        min_dist[0] = 0;
+    
+        for(int i = 0; i < edges.size(); i++){
+            adj[edges[i][0]].push_back({edges[i][1], edges[i][2]});
+            adj[edges[i][1]].push_back({edges[i][0], edges[i][2]*2});
         }
 
-        vector<int> result(n, INT_MAX);
-        result[0] = 0;
-        priority_queue<P, vector<P>, greater<P>> pq;
-        pq.push({0, 0}); //distance = 0, sourceNode = 0
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 
-        while(!pq.empty()) {
-            int d    = pq.top().first;
-		    int node = pq.top().second;
-		    pq.pop();
-            if(node == n-1)
-                return result[node];
+        pq.push({0,0});
 
-		    for(auto &p : adj[node]) {
+        while(!pq.empty()){
+            int curr_node = pq.top().first;
+            int curr_dist = pq.top().second;
+            pq.pop();
 
-                int adjNode = p.first;
-                int dist    = p.second;
-
-                if(d + dist < result[adjNode]) {
-                    result[adjNode] = d + dist;
-                    pq.push({d+dist, adjNode});
+            if(curr_node == n-1){
+                return min_dist[curr_node];
+            }
+            for(auto &nbr : adj[curr_node]){
+                int node = nbr.first;
+                int dist = nbr.second;
+                // cout <<"node: " << nbr.first << " dist: " << nbr.second << endl;
+                if((curr_dist+dist) < min_dist[node]){
+                    min_dist[node] = curr_dist+dist;
+                    pq.push({node,curr_dist+dist});
                 }
-		    }
+            }
         }
-
         return -1;
+
     }
 };
+
