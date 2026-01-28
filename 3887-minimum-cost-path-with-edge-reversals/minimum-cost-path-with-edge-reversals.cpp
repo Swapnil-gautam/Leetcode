@@ -15,8 +15,8 @@ public:
         pq.push({0,0});
 
         while(!pq.empty()){
-            int curr_node = pq.top().first;
-            int curr_dist = pq.top().second;
+            int curr_dist = pq.top().first;
+            int curr_node = pq.top().second;
             pq.pop();
 
             if(curr_node == n-1){
@@ -28,7 +28,7 @@ public:
                 // cout <<"node: " << nbr.first << " dist: " << nbr.second << endl;
                 if((curr_dist+dist) < min_dist[node]){
                     min_dist[node] = curr_dist+dist;
-                    pq.push({node,curr_dist+dist});
+                    pq.push({curr_dist+dist, node});
                 }
             }
         }
