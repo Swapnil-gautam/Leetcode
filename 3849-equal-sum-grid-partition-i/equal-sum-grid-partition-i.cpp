@@ -26,7 +26,7 @@ public:
         vert_forw.insert(vert_forw.begin(), 0);
         vert_back.push_back(0);
         // vert_forw[0] = 0;
-        for(int i = 0; i < n+1; i++){
+        for(int i = 1; i < n; i++){
             // cout << vert_forw[i] << " ";
             if(vert_forw[i] == vert_back[i]){
                 return true;
@@ -43,7 +43,7 @@ public:
         hori_forw.insert(hori_forw.begin(), 0);
         hori_back.push_back(0);
         // vert_forw[0] = 0;
-        for(int i = 0; i < m+1; i++){
+        for(int i = 1; i < m; i++){
             // cout << vert_forw[i] << " ";
             if(hori_forw[i] == hori_back[i]){
                 return true;
