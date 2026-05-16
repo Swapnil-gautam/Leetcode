@@ -1,45 +1,40 @@
-// class Solution {
-// public:
-//     int findMin(vector<int>& nums) {
-        
-//     }
-// };
-
-
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int l = 0;
-        int r = nums.size() - 1;
+        int n = nums.size();
+        int l = 0; 
+        int r = n-1; // 3
 
-        int resultIdx = 0;
+        while(l < r){
+            int mid = (l+r)/2; // 1
+            if(nums[mid] > nums[r]){
+                l = mid+1;
+            }else if(nums[mid] < nums[r]){
+                r = mid;
+            }else{
+                int prevmid = mid;
+                // cout << "mid: " << mid << endl;
+                int lmid = mid;
+                int rmid = mid;
 
-        while(l <= r) {
+                while(nums[mid] == nums[lmid] && lmid > l){
+                    lmid = lmid-1;
+                }
 
-            // remove duplicates from left
-            while(l < r && nums[l] == nums[l + 1])
-                l++;
+                while(nums[mid] == nums[rmid] && rmid < r){
+                    rmid = rmid+1;
+                }
 
-            // remove duplicates from right
-            while(l < r && nums[r] == nums[r - 1])
-                r--;
+                // cout << "lmid: " << lmid << " rmid: " << rmid << endl;
 
-            int mid = l + (r - l) / 2;
-
-            // update answer
-            if(nums[mid] < nums[resultIdx])
-                resultIdx = mid;
-
-            // minimum lies on right side
-            if(nums[mid] > nums[r]) {
-                l = mid + 1;
-            }
-            // minimum can be on left side
-            else {
-                r = mid - 1;
+                if(nums[lmid] > nums[rmid]){
+                    l = rmid;
+                }else{
+                    r = lmid;
+                }
             }
         }
 
-        return nums[resultIdx];
+        return nums[l];
     }
 };
