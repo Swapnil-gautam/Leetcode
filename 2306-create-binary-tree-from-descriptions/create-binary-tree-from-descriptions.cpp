@@ -53,7 +53,7 @@ public:
                 parents.erase(pp); 
             }
         }
-        cout << endl;
+        // cout << endl;
         for (const auto& pp : parents) {
             // std::cout << pp << " ";
             // if(child.find(pp) != child.end()){
